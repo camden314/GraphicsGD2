@@ -3,6 +3,8 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include "b64.hpp"
 
+void * _Unwind_Resume =0;
+
 typedef void(*queuefunc)(std::string);
 GameManager* sharedManager;
 std::vector<std::pair<queuefunc, std::string>> thequeue;
@@ -108,6 +110,9 @@ void initIPC() {
 	CFRelease(localPort);
 }
 void inject() {
+	std::string intro("SW5qZWN0ZWQgQ2xpZW50,eWVhaA==,T0s=");
+	thequeue.push_back(std::make_pair(popup,intro));
+
 	sharedManager = GameManager::sharedState();
 
 	loop = new ModContainer("GraphicsGD Loop", "global");

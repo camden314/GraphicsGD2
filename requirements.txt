@@ -1,4 +1,6 @@
+wheel
 pyobjc
 svgpathtools
 numpy
 requests
+wand

@@ -6,17 +6,6 @@ import level
 import msgport
 from xml.dom import minidom
 
-try:
-    from tkinter import filedialog, Tk
-except ImportError:
-    from Tkinter import Tk
-    import tkFileDialog as filedialog
-
-
-try:
-    i_input = raw_input
-except:
-    i_input = input
 def mad(data, axis=None):
     return np.mean(abs(data - np.mean(data, axis)), axis)
 
@@ -30,23 +19,8 @@ def slope(x1, y1, x2, y2):
         return m
 
 
-def main():
-    if len(sys.argv) > 1:
-        file_path = sys.argv[1]
-    else:
-        print(sys.argv)
-        root = Tk()
-        root.withdraw()
-        root.update()
-        file_path = filedialog.askopenfilename(
-            filetypes=[('Vector file', '*.svg')]
-            )
-        root.update()
-        del root
-    scale = float(input("size of level (higher number means smaller size):"))
-    density = float(input("block density (default 1):"))
+def generate(file_path, scale, density, block_size):
     scale/=density
-    block_size = float(input("block size (default 0.3):"))
 
     # new data~
     """mydoc = minidom.parse(file_path)
@@ -89,13 +63,5 @@ def main():
             lvl.addBlock(917, (point[0]*2)/density, (((-1*point[1])+svglengthy)*2)/density,
                          rotation=math.degrees(point[2]), size=block_size,
                          dont_fade=1, dont_enter=1)
-    print("Objects used: "+str(total) +
-          ". Note: if the level uses over 3000 objects, it might not load")
-    msgport.uploadToGD(lvl)
-    #lid = lvl.uploadLevel(uname, password, lpassword="1", description="")
-    #print('Your level ID is '+str(lid))
-    i_input("Pasted the level. Press enter to exit")
 
-
-if __name__ == '__main__':
-    main()
+    return lvl
