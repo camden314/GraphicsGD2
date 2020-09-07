@@ -11,3 +11,5 @@ python -m pip install --user svgpathtools
 python -m pip install --user requests
 python -m pip install --user pyobjc
 python -m pip install --user numpy
+python -m pip install --user reportlab
+python -m pip install --user svglib

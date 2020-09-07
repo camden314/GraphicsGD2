@@ -4,9 +4,10 @@
 #include "b64.hpp"
 
 void * _Unwind_Resume =0;
+GameManager* sharedManager;
+
 
 typedef void(*queuefunc)(std::string);
-GameManager* sharedManager;
 std::vector<std::pair<queuefunc, std::string>> thequeue;
 ModContainer* loop;
 
@@ -43,6 +44,12 @@ void redo(std::string none) {
 			auto editor = static_cast<EditorUI*>(layer->valOffset(0x5d8));
 			editor->redoLastAction();
 		}
+}
+void searchLevel(std::string lvl) {
+	auto searchObj = GJSearchObject::create(0,lvl,"-2","-", 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0);
+	auto scen = LevelBrowserLayer::scene(searchObj);
+	cocos2d::CCDirector::sharedDirector()->pushScene(cocos2d::CCTransitionFade::create(0.5, scen));
+
 }
 void popup(std::string data) {
 	auto list = split(data, ',');
@@ -89,6 +96,9 @@ static CFDataRef Callback(CFMessagePortRef port,
 			break;
 		case 5: //popup
 			thequeue.push_back(std::make_pair(popup,cdata));
+			break;
+		case 6: //search
+			thequeue.push_back(std::make_pair(searchLevel,cdata));
 			break;
 
 	}

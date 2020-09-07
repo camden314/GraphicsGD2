@@ -39,6 +39,8 @@ class ViewController(NSViewController):
     imagePreview = IBOutlet()
     
     drawBtn = IBOutlet()
+    
+    errCorrection = IBOutlet()
 
     def previewSVG(self):
         try:
@@ -98,7 +100,7 @@ class ViewController(NSViewController):
         self.level = None
         if self.chosenFile and self.chosenFile.length()!=0:
             try:
-                self.level = GGD2.ggd.generate(self.chosenFile.UTF8String(), 1.0/self.graphicSize.floatValue(), self.blockDensity.floatValue(), self.blockSize.floatValue())
+                self.level = GGD2.ggd.generate(self.chosenFile.UTF8String(), 1.0/self.graphicSize.floatValue(), self.blockDensity.floatValue(), self.blockSize.floatValue(), self.errCorrection.state()==NSOffState)
                 
                 self.countLabel.setStringValue_("This graphic will contain %d blocks "%len(self.level.blocks))
             except:
